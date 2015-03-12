@@ -11,7 +11,7 @@ namespace Theif_Escape
 
         #region [ Class Enumerations ]
         //Enumeration of all possible types of the cell.
-        enum Archetypes
+        public enum Archetypes
         {
             WALL,
             FLOOR,
@@ -21,7 +21,7 @@ namespace Theif_Escape
 
 
         //Enumeration of all possible modifiers for the cell's type.
-        enum Modifiers
+        public enum Modifiers
         {
             NULL,
             LOCKED,
@@ -29,7 +29,7 @@ namespace Theif_Escape
         }
 
         //Enumeration of all items possible to be found in a cell.
-        enum Contents
+        public enum Contents
         {
             NULL,
             KEY,

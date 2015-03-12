@@ -22,7 +22,12 @@ namespace Theif_Escape
         //New Game Button
         private void btnNew_Click(object sender, EventArgs e)
         {
+            //Create the GetName form, and launch it
+            FrmGetName frm = new FrmGetName();
+            frm.Show();
 
+            //Hide this form
+            this.Hide();
         }
 
         //Load Game Button

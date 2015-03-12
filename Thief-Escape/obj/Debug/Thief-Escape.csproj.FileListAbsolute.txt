@@ -7,3 +7,5 @@ C:\Users\Keegon\Documents\GitHub\Thief-Escape.Remake\Thief-Escape\obj\Debug\Thei
 C:\Users\Keegon\Documents\GitHub\Thief-Escape.Remake\Thief-Escape\obj\Debug\Thief-Escape.csproj.GenerateResource.Cache
 C:\Users\Keegon\Documents\GitHub\Thief-Escape.Remake\Thief-Escape\obj\Debug\Theif-Escape.exe
 C:\Users\Keegon\Documents\GitHub\Thief-Escape.Remake\Thief-Escape\obj\Debug\Theif-Escape.pdb
+C:\Users\Keegon\Documents\GitHub\Thief-Escape.Remake\Thief-Escape\obj\Debug\Theif_Escape.FrmGetName.resources
+C:\Users\Keegon\Documents\GitHub\Thief-Escape.Remake\Thief-Escape\obj\Debug\Theif_Escape.FrmGame.resources

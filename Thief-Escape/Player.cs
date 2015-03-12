@@ -24,10 +24,6 @@ namespace Theif_Escape
         #region [ Properties ]
 
 
-        //Player's inventory
-        List<Item> Inventory = new List<Item>();
-
-
         //Gets or sets the player's name.
         public string Name 
         {
