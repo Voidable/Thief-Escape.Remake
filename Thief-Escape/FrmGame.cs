@@ -467,6 +467,9 @@ namespace Theif_Escape
                 //  For-loop through each 'row' of the Grid ( 'column' of the Map), starting at the lowerY bound and stopping at the upperY bound
                 for (int y = lowerY; y <= upperY; y++)
                 {
+                    //Clear the face from the cell
+                    grdconMap[y + 1, x + 1].Text = "";
+
                     //  Get the Archetype of the cell
                     Cell.Archetypes type = cellGrid.CheckType(x, y);
 
@@ -584,6 +587,7 @@ namespace Theif_Escape
 
             //  Set the player cell color
             grdconMap[player.YCoord + 1, player.XCoord + 1].BackColor = playerColor;
+            grdconMap[player.YCoord + 1, player.XCoord + 1].Text = "☺";
 
         }
 
