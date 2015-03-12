@@ -67,6 +67,12 @@ namespace Theif_Escape
                     _contents = Contents.NULL;
                 }
 
+                //Doors default to unlocked.
+                if (_archtype == Archetypes.DOOR)
+                {
+                    _modifier = Modifiers.UNLOCKED;
+                }
+
                 //Only Doors have modifiers
                 if (value != Archetypes.DOOR)
                 {

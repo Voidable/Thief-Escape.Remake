@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle13 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle14 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle15 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
-            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle16 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle37 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle38 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle39 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
+            Syncfusion.Windows.Forms.Grid.GridBaseStyle gridBaseStyle40 = new Syncfusion.Windows.Forms.Grid.GridBaseStyle();
             this.grpboxLegend = new System.Windows.Forms.GroupBox();
             this.lblKey = new System.Windows.Forms.Label();
             this.txtKey = new System.Windows.Forms.TextBox();
@@ -298,6 +298,7 @@
             this.btnUseKey.TabIndex = 7;
             this.btnUseKey.Text = "Use Key";
             this.btnUseKey.UseVisualStyleBackColor = false;
+            this.btnUseKey.Click += new System.EventHandler(this.btnUseKey_Click);
             // 
             // btnAction3
             // 
@@ -332,6 +333,7 @@
             this.btnPickupKey.TabIndex = 4;
             this.btnPickupKey.Text = "Pickup Key";
             this.btnPickupKey.UseVisualStyleBackColor = false;
+            this.btnPickupKey.Click += new System.EventHandler(this.btnPickupKey_Click);
             // 
             // grpMovement
             // 
@@ -360,6 +362,7 @@
             this.btnMoveWest.TabIndex = 3;
             this.btnMoveWest.Text = "West";
             this.btnMoveWest.UseVisualStyleBackColor = false;
+            this.btnMoveWest.Click += new System.EventHandler(this.btnMoveWest_Click);
             // 
             // btnMoveEast
             // 
@@ -372,6 +375,7 @@
             this.btnMoveEast.TabIndex = 2;
             this.btnMoveEast.Text = "East";
             this.btnMoveEast.UseVisualStyleBackColor = false;
+            this.btnMoveEast.Click += new System.EventHandler(this.btnMoveEast_Click);
             // 
             // btnMoveSouth
             // 
@@ -384,6 +388,7 @@
             this.btnMoveSouth.TabIndex = 1;
             this.btnMoveSouth.Text = "South";
             this.btnMoveSouth.UseVisualStyleBackColor = false;
+            this.btnMoveSouth.Click += new System.EventHandler(this.btnMoveSouth_Click);
             // 
             // btnMoveNorth
             // 
@@ -396,6 +401,7 @@
             this.btnMoveNorth.TabIndex = 0;
             this.btnMoveNorth.Text = "North";
             this.btnMoveNorth.UseVisualStyleBackColor = false;
+            this.btnMoveNorth.Click += new System.EventHandler(this.btnMoveNorth_Click);
             // 
             // tabDialog
             // 
@@ -504,30 +510,30 @@
             this.grdMap.AllowSelection = Syncfusion.Windows.Forms.Grid.GridSelectionFlags.None;
             this.grdMap.BackColor = System.Drawing.Color.DimGray;
             this.grdMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            gridBaseStyle13.Name = "Header";
-            gridBaseStyle13.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
-            gridBaseStyle13.StyleInfo.CellType = "Header";
-            gridBaseStyle13.StyleInfo.Font.Bold = true;
-            gridBaseStyle13.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
-            gridBaseStyle13.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
-            gridBaseStyle14.Name = "Standard";
-            gridBaseStyle14.StyleInfo.Font.Facename = "Tahoma";
-            gridBaseStyle14.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
-            gridBaseStyle15.Name = "Column Header";
-            gridBaseStyle15.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle15.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
-            gridBaseStyle16.Name = "Row Header";
-            gridBaseStyle16.StyleInfo.BaseStyle = "Header";
-            gridBaseStyle16.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
-            gridBaseStyle16.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle37.Name = "Header";
+            gridBaseStyle37.StyleInfo.Borders.Bottom = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle37.StyleInfo.Borders.Left = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle37.StyleInfo.Borders.Right = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle37.StyleInfo.Borders.Top = new Syncfusion.Windows.Forms.Grid.GridBorder(Syncfusion.Windows.Forms.Grid.GridBorderStyle.None);
+            gridBaseStyle37.StyleInfo.CellType = "Header";
+            gridBaseStyle37.StyleInfo.Font.Bold = true;
+            gridBaseStyle37.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Vertical, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
+            gridBaseStyle37.StyleInfo.VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle;
+            gridBaseStyle38.Name = "Standard";
+            gridBaseStyle38.StyleInfo.Font.Facename = "Tahoma";
+            gridBaseStyle38.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            gridBaseStyle39.Name = "Column Header";
+            gridBaseStyle39.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle39.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center;
+            gridBaseStyle40.Name = "Row Header";
+            gridBaseStyle40.StyleInfo.BaseStyle = "Header";
+            gridBaseStyle40.StyleInfo.HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left;
+            gridBaseStyle40.StyleInfo.Interior = new Syncfusion.Drawing.BrushInfo(Syncfusion.Drawing.GradientStyle.Horizontal, System.Drawing.Color.FromArgb(((int)(((byte)(203)))), ((int)(((byte)(199)))), ((int)(((byte)(184))))), System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(234)))), ((int)(((byte)(216))))));
             this.grdMap.BaseStylesMap.AddRange(new Syncfusion.Windows.Forms.Grid.GridBaseStyle[] {
-            gridBaseStyle13,
-            gridBaseStyle14,
-            gridBaseStyle15,
-            gridBaseStyle16});
+            gridBaseStyle37,
+            gridBaseStyle38,
+            gridBaseStyle39,
+            gridBaseStyle40});
             this.grdMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.grdMap.ColCount = 24;
             this.grdMap.ColWidthEntries.AddRange(new Syncfusion.Windows.Forms.Grid.GridColWidth[] {
