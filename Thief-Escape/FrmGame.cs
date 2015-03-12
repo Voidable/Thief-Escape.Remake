@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Syncfusion.Windows.Forms;
+using Theif_Escape;
 
 namespace Theif_Escape
 {
@@ -80,14 +81,17 @@ namespace Theif_Escape
             //  Create the Grid
             cellGrid = new Grid(Grid.MapFiles.Test);
 
-            //  Create the Map
-            CreateMap();
-
             //  Place the player
             player.SetLocation(cellGrid.StartingCell);
-            //  Clear the fog
+
+            //  Make everything black
+            InitialFog();
+
+            //  Clear the fog around the player
+            ClearFog();
 
             //  Check Valid Movements
+            CheckValidMovements(player.XCoord, player.YCoord);
 
             //  Initial Prompt
             InitalPrompt();
@@ -149,14 +153,7 @@ namespace Theif_Escape
         private void btnMoveNorth_Click(object sender, EventArgs e)
         {
             //  Move the player North ( y - 1 )
-
-            //  Re-evaluate Valid Movements
-
-            //  Remove Map color from previous cell
-
-            //  Change Map color of current cell
-
-            //  Remake fog of war
+            PlayerMovement(Grid.Direction.NORTH);
 
         }
 
@@ -164,14 +161,7 @@ namespace Theif_Escape
         private void btnMoveEast_Click(object sender, EventArgs e)
         {
             //  Move the player East ( x + 1 )
-
-            //  Re-evaluate Valid Movements
-
-            //  Remove Map color from previous cell
-
-            //  Change Map color of current cell
-
-            //  Remake fog of war
+            PlayerMovement(Grid.Direction.EAST);
 
         }
 
@@ -179,30 +169,14 @@ namespace Theif_Escape
         private void btnMoveSouth_Click(object sender, EventArgs e)
         {
             //  Move the player South ( y + 1 )
-
-            //  Re-evaluate Valid Movements
-
-            //  Remove Map color from previous cell
-
-            //  Change Map color of current cell
-
-            //  Remake fog of war
-
+            PlayerMovement(Grid.Direction.SOUTH);
         }
 
         //  West Button
         private void btnMoveWest_Click(object sender, EventArgs e)
         {
             //  Move the player West ( x - 1 )
-
-            //  Re-evaluate Valid Movements
-
-            //  Remove Map color from previous cell
-
-            //  Change Map color of current cell
-
-            //  Remake fog of war
-
+            PlayerMovement(Grid.Direction.WEST);
         }
 
 
@@ -210,9 +184,107 @@ namespace Theif_Escape
 
         #region [ Movement Methods ]
 
+
+        //Enables or dissables buttons based on the cells surrounding the player
         public void CheckValidMovements(int x, int y)
         {
-            //to-do
+
+
+            //Check the cell north of the player. y - 1
+            //  If the cell is a wall, disable movement
+            if (cellGrid.CheckType(x,y-1) == Cell.Archetypes.WALL)
+            {
+                btnMoveNorth.Enabled = false;
+            }
+            //  If the cell is a Door and is LOCKED, disable movement
+            else if (cellGrid.CheckType(x,y-1) == Cell.Archetypes.DOOR & cellGrid.CheckDoorModifier(x,y-1) == Cell.Modifiers.LOCKED)
+            {
+                btnMoveNorth.Enabled = false;
+            }
+            //  Everything else can be moved into
+            else
+            {
+                btnMoveNorth.Enabled = true;
+            }
+
+            //Check the cell south of the player. y + 1
+            //  If the cell is a wall, disable movement
+            if (cellGrid.CheckType(x, y + 1) == Cell.Archetypes.WALL)
+            {
+                btnMoveSouth.Enabled = false;
+            }
+            //  If the cell is a Door and is LOCKED, disable movement
+            else if (cellGrid.CheckType(x, y + 1) == Cell.Archetypes.DOOR & cellGrid.CheckDoorModifier(x, y + 1) == Cell.Modifiers.LOCKED)
+            {
+                btnMoveSouth.Enabled = false;
+            }
+            //  Everything else can be moved into
+            else
+            {
+                btnMoveSouth.Enabled = true;
+            }
+            //Check the cell west of the player. x - 1
+            //  If the cell is a wall, disable movement
+            if (cellGrid.CheckType(x - 1, y) == Cell.Archetypes.WALL)
+            {
+                btnMoveWest.Enabled = false;
+            }
+            //  If the cell is a Door and is LOCKED, disable movement
+            else if (cellGrid.CheckType(x - 1, y) == Cell.Archetypes.DOOR & cellGrid.CheckDoorModifier(x - 1, y) == Cell.Modifiers.LOCKED)
+            {
+                btnMoveWest.Enabled = false;
+            }
+            //  Everything else can be moved into
+            else
+            {
+                btnMoveWest.Enabled = true;
+            }
+
+            //Check the cell east of the player. x + 1
+            //  If the cell is a wall, disable movement
+            if (cellGrid.CheckType(x + 1, y) == Cell.Archetypes.WALL)
+            {
+                btnMoveEast.Enabled = false;
+            }
+            //  If the cell is a Door and is LOCKED, disable movement
+            else if (cellGrid.CheckType(x + 1, y) == Cell.Archetypes.DOOR & cellGrid.CheckDoorModifier(x + 1, y) == Cell.Modifiers.LOCKED)
+            {
+                btnMoveEast.Enabled = false;
+            }
+            //  Everything else can be moved into
+            else
+            {
+                btnMoveEast.Enabled = true;
+            }
+        }
+
+        //  Handles all of the player movements - passed in the direction.
+        internal void PlayerMovement(Grid.Direction direction)
+        {
+            //Move the player
+            switch (direction)
+            {
+                case Grid.Direction.NORTH:
+                    player.YCoord--;
+                    break;
+                case Grid.Direction.SOUTH:
+                    player.YCoord++;
+                    break;
+                case Grid.Direction.EAST:
+                    player.XCoord++;
+                    break;
+                case Grid.Direction.WEST:
+                    player.XCoord--;
+                    break;
+            }
+            //Clear the fog
+            ClearFog();
+
+            //Update the fog
+            UpdateFog(direction);
+
+            //Re-validate valid movements.
+            CheckValidMovements(player.XCoord,player.YCoord);
         }
 
 
@@ -306,26 +378,50 @@ namespace Theif_Escape
 
         #region [ Image Map ]
 
-        public void CreateMap()
+
+        //Clears the fog in a 5x5 square, centered on the players location
+        public void ClearFog()
         {
             //  Define the colors for the cells
             Color wallColor = Color.DimGray;
             Color floorColor = Color.White;
-            Color doorUnlockedColor = Color.SaddleBrown;
-            Color doorLockedColor = Color.Chocolate;
+            Color doorUnlockedColor = Color.Chocolate;
+            Color doorLockedColor = Color.SaddleBrown;
             Color stairColor = Color.Cyan;
             Color kittenColor = Color.Purple;
             Color keyColor = Color.SpringGreen;
+
+
+            //  Define player color
+            Color playerColor = Color.Orange;
 
 
             //Get the max range of the cellGrid
             int maxRange = cellGrid.MapSize + 1;
 
 
+            //Define the area around the player to clear the fog. Validating for the bounds of the grid.
+            //  lower x bound
+            int lowerX = player.XCoord - 1;
+            if (lowerX <= 0)
+                lowerX = 1;
+            //  upper x bound
+            int upperX = player.XCoord + 3;
+            if (upperX > maxRange - 1)
+                upperX = maxRange - 1;
+            //  lower y bound
+            int lowerY = player.YCoord - 1;
+            if (lowerY <= 0)
+                lowerY = 1;
+            //  upper y bound
+            int upperY = player.YCoord + 3;
+            if (upperY > maxRange - 1)
+                upperY = maxRange - 1;
+
             //For loop to process each cell in the cellGrid and set the color appropriately.
-            for (int x = 1; x < maxRange; x++)
+            for (int x = lowerX; x <= upperX; x++)
             {
-                for (int y = 1; y < maxRange; y++)
+                for (int y = lowerY; y <= upperY; y++)
                 {
                     //  Get the Archetype
                     Cell.Archetypes type = cellGrid.CheckType(x - 1, y - 1);
@@ -401,6 +497,44 @@ namespace Theif_Escape
                 }
             }
 
+            //  Set the player cell color
+            grdconMap[player.YCoord + 1, player.XCoord + 1].BackColor = playerColor;
+
+        }
+
+
+        //Simply sets everything in the map to black
+        public void InitialFog()
+        {
+            //Get the max range of the cellGrid
+            int maxRange = cellGrid.MapSize + 1;
+
+
+            //For loop to process each cell in the cellGrid and set the color appropriately.
+            for (int x = 1; x < maxRange; x++)
+            {
+                for (int y = 1; y < maxRange; y++)
+                {
+                    grdconMap[x, y].BackColor = Color.Black;
+                }
+            }
+        }
+
+
+        //Return the fog to the area no longer revealed.
+        internal void UpdateFog(Grid.Direction direction)
+        {
+            switch (direction)
+            {
+                case Grid.Direction.NORTH:
+                    break;
+                case Grid.Direction.SOUTH:
+                    break;
+                case Grid.Direction.EAST:
+                    break;
+                case Grid.Direction.WEST:
+                    break;
+            }
         }
 
 

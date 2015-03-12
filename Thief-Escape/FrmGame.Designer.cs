@@ -553,6 +553,7 @@
             this.grdconMap.Properties.BackgroundColor = System.Drawing.Color.Black;
             this.grdconMap.Properties.ColHeaders = false;
             this.grdconMap.Properties.ForceImmediateRepaint = false;
+            this.grdconMap.Properties.GridLineColor = System.Drawing.Color.Black;
             this.grdconMap.Properties.MarkColHeader = false;
             this.grdconMap.Properties.MarkRowHeader = false;
             this.grdconMap.Properties.RowHeaders = false;

@@ -40,8 +40,8 @@ namespace Theif_Escape
         private int _mapSize;
 
         // The Grid's starting cell
-        private int _startingX;
         private int _startingY;
+        private int _startingX;
 
 
         #endregion
@@ -54,7 +54,7 @@ namespace Theif_Escape
         {
             get
             {
-                int[] coords = { _startingX, _startingY };
+                int[] coords = { _startingY, _startingX };
                 return coords;
             }
         }
@@ -102,8 +102,8 @@ namespace Theif_Escape
             {
                 #region [ Test Map Creation ]
                 //Starting Cell
-                _startingX = 1;
-                _startingY = 1;
+                _startingY = 2;
+                _startingX = 4;
                 #region Walls
                 //create top row of walls
                 for (int i = 0; i < 16; i++)
