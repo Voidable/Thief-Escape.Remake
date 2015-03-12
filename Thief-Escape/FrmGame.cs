@@ -27,6 +27,26 @@ namespace Theif_Escape
         bool exit = true;
 
 
+        #region [ Colors ]
+
+        //  Define the colors for the cells
+        Color wallColor = Color.DimGray;
+        Color floorColor = Color.White;
+        Color doorUnlockedColor = Color.Chocolate;
+        Color doorLockedColor = Color.SaddleBrown;
+        Color stairColor = Color.Cyan;
+        Color kittenColor = Color.Purple;
+        Color keyColor = Color.SpringGreen;
+
+
+        //  Define player color
+        Color playerColor = Color.Orange;
+
+        // Define fog color
+        Color fogColor = Color.Black;
+
+        #endregion
+
         #endregion
 
 
@@ -88,7 +108,7 @@ namespace Theif_Escape
             InitialFog();
 
             //  Clear the fog around the player
-            ClearFog();
+            ViewArea();
 
             //  Check Valid Movements
             CheckValidMovements(player.XCoord, player.YCoord);
@@ -192,12 +212,12 @@ namespace Theif_Escape
 
             //Check the cell north of the player. y - 1
             //  If the cell is a wall, disable movement
-            if (cellGrid.CheckType(x,y-1) == Cell.Archetypes.WALL)
+            if (cellGrid.CheckType(x, y - 1) == Cell.Archetypes.WALL)
             {
                 btnMoveNorth.Enabled = false;
             }
             //  If the cell is a Door and is LOCKED, disable movement
-            else if (cellGrid.CheckType(x,y-1) == Cell.Archetypes.DOOR & cellGrid.CheckDoorModifier(x,y-1) == Cell.Modifiers.LOCKED)
+            else if (cellGrid.CheckType(x, y - 1) == Cell.Archetypes.DOOR & cellGrid.CheckDoorModifier(x, y - 1) == Cell.Modifiers.LOCKED)
             {
                 btnMoveNorth.Enabled = false;
             }
@@ -278,13 +298,13 @@ namespace Theif_Escape
                     break;
             }
             //Clear the fog
-            ClearFog();
+            ViewArea();
 
             //Update the fog
             UpdateFog(direction);
 
             //Re-validate valid movements.
-            CheckValidMovements(player.XCoord,player.YCoord);
+            CheckValidMovements(player.XCoord, player.YCoord);
         }
 
 
@@ -307,13 +327,23 @@ namespace Theif_Escape
             {
                 //  Remove key from grid.
                 cellGrid.RemoveItem(keyDetails[1], keyDetails[2]);
+
+                //  Refresh grid.
+                ViewArea();
+
                 //  Add a key to the inventory
                 Item key = new Item(Item.ItemType.KEY);
                 Inventory.Add(key);
                 UpdateInventory();
+
+                //  Tell user they have picked up a key.
+                lstDialog.Items.Add("I have found a Key, I can use this to open doors.");
+                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                lstDialog.SelectedIndex = -1;
             }
             else
             {
+                //  Tell user there is no key nearby.
                 lstDialog.Items.Add("There is no key nearby!");
                 lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
                 lstDialog.SelectedIndex = -1;
@@ -325,7 +355,30 @@ namespace Theif_Escape
         // Use Key Button
         private void btnUseKey_Click(object sender, EventArgs e)
         {
-            //to-do
+            //First checks if the player has a key in its inventory
+
+
+            //Creates starting point for search, 1 cell up and 1 cell left, centered on the player.
+            int x = player.XCoord - 1;
+            int y = player.YCoord - 1;
+
+            //Goes through each "column" of the search area
+            for (int ix = 0; ix < 3; ix++)
+            {
+                //Goes through each "row" of the column
+                for (int iy = 0; iy < 3; iy++)
+                {
+                    //If the cell is a door, check if its locked.
+                    if (cellGrid.CheckType((x + ix), (y + iy)) == Cell.Archetypes.DOOR)
+                    {
+                        //  Search found a locked door.
+                        if (cellGrid.CheckDoorModifier((x + ix), (y + iy)) == Cell.Modifiers.LOCKED)
+                        {
+
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
@@ -337,7 +390,7 @@ namespace Theif_Escape
             //The array defined as (bool,x-coord,y-coord). Bool is 0-false 1-true, with default of false.
             int[] result = { 0, 0, 0 };
 
-            //Creates starting point for search, 1 cell up and 1 cell left.
+            //Creates starting point for search, 1 cell up and 1 cell left, centered on the player.
             int x = player.XCoord - 1;
             int y = player.YCoord - 1;
 
@@ -379,123 +432,155 @@ namespace Theif_Escape
         #region [ Image Map ]
 
 
-        //Clears the fog in a 5x5 square, centered on the players location
-        public void ClearFog()
+        //Clears the fog and refreshes colors in a 5x5 square, centered on the players location
+        public void ViewArea()
         {
-            //  Define the colors for the cells
-            Color wallColor = Color.DimGray;
-            Color floorColor = Color.White;
-            Color doorUnlockedColor = Color.Chocolate;
-            Color doorLockedColor = Color.SaddleBrown;
-            Color stairColor = Color.Cyan;
-            Color kittenColor = Color.Purple;
-            Color keyColor = Color.SpringGreen;
 
+            //  Get lower and upper Grid Bounds of the Clear, with validations to limit values.
+            #region [ Bounds ]
+            //      Northern Bound ( y - 2 )
+            int lowerY = player.YCoord - 2;
+            if (lowerY < 0)
+                lowerY = 0;
 
-            //  Define player color
-            Color playerColor = Color.Orange;
+            //      Southern Bound ( y + 2 )
+            int upperY = player.YCoord + 2;
+            if (upperY > cellGrid.MapSize - 1)
+                upperY = cellGrid.MapSize - 1;
 
+            //      Eastern Bound ( x + 2 )
+            int upperX = player.XCoord + 2;
+            if (upperX > cellGrid.MapSize - 1)
+                upperX = cellGrid.MapSize - 1;
 
-            //Get the max range of the cellGrid
-            int maxRange = cellGrid.MapSize + 1;
+            //      Western Bound ( x - 2 )
+            int lowerX = player.XCoord - 2;
+            if (lowerX < 0)
+                lowerX = 0;
+            #endregion
 
+            //  NOTE :: The Grid and the Map have flipped X and Y values, as well as the Map being indented X+1 and Y+1 from the Grid.
 
-            //Define the area around the player to clear the fog. Validating for the bounds of the grid.
-            //  lower x bound
-            int lowerX = player.XCoord - 1;
-            if (lowerX <= 0)
-                lowerX = 1;
-            //  upper x bound
-            int upperX = player.XCoord + 3;
-            if (upperX > maxRange - 1)
-                upperX = maxRange - 1;
-            //  lower y bound
-            int lowerY = player.YCoord - 1;
-            if (lowerY <= 0)
-                lowerY = 1;
-            //  upper y bound
-            int upperY = player.YCoord + 3;
-            if (upperY > maxRange - 1)
-                upperY = maxRange - 1;
-
-            //For loop to process each cell in the cellGrid and set the color appropriately.
+            //  For-loop through each 'column' of the Grid ( 'row' of the Map), starting at the lowerX bound and stopping at the upperX bound
             for (int x = lowerX; x <= upperX; x++)
             {
+                //  For-loop through each 'row' of the Grid ( 'column' of the Map), starting at the lowerY bound and stopping at the upperY bound
                 for (int y = lowerY; y <= upperY; y++)
                 {
-                    //  Get the Archetype
-                    Cell.Archetypes type = cellGrid.CheckType(x - 1, y - 1);
+                    //  Get the Archetype of the cell
+                    Cell.Archetypes type = cellGrid.CheckType(x, y);
 
-                    //  Get the Modifier
-                    Cell.Modifiers mod = cellGrid.CheckDoorModifier(x - 1, y - 1);
-
-                    //  Get the Contents
-                    Cell.Contents cont = cellGrid.CheckForItem(x - 1, y - 1);
-
-                    //  Switch on the Archetype
+                    //  Switch on the Archetype - Get details as needed to continue switching.
                     switch (type)
                     {
+                        // Walls - can contain Items
+                        #region  [ Wall Switching ]
+
+
                         case Cell.Archetypes.WALL:
-                            //  Switch on Contents
-                            switch (cont)
                             {
-                                case Cell.Contents.NULL:
-                                    //  Empty Walls are black
-                                    grdconMap[y, x].BackColor = wallColor;
-                                    break;
-                                case Cell.Contents.KEY:
-                                    //  Keys are springGreen
-                                    grdconMap[y, x].BackColor = keyColor;
-                                    break;
-                                case Cell.Contents.KITTEN:
-                                    // Kittens are purple
-                                    grdconMap[y, x].BackColor = kittenColor;
-                                    break;
+                                //Get contents
+                                Cell.Contents cont = cellGrid.CheckForItem(x, y);
+
+                                //  Switch on Contents
+                                switch (cont)
+                                {
+                                    case Cell.Contents.NULL:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = wallColor;
+                                        }
+                                        break;
+                                    case Cell.Contents.KEY:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = keyColor;
+                                        }
+                                        break;
+                                    case Cell.Contents.KITTEN:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = kittenColor;
+                                        }
+                                        break;
+                                }
+
                             }
                             break;
 
+
+                        #endregion
+
+
+                        //  Floors - can contain Items
+                        #region [ Floor Switching ]
                         case Cell.Archetypes.FLOOR:
-                            //  Switch on Contents
-                            switch (cont)
                             {
-                                case Cell.Contents.NULL:
-                                    //  Empty Walls are black
-                                    grdconMap[y, x].BackColor = floorColor;
-                                    break;
-                                case Cell.Contents.KEY:
-                                    //  Keys are springGreen
-                                    grdconMap[y, x].BackColor = keyColor;
-                                    break;
-                                case Cell.Contents.KITTEN:
-                                    // Kittens are purple
-                                    grdconMap[y, x].BackColor = kittenColor;
-                                    break;
+                                //Get contents
+                                Cell.Contents cont = cellGrid.CheckForItem(x, y);
+
+                                //Switch on Contents
+                                switch (cont)
+                                {
+                                    case Cell.Contents.NULL:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = floorColor;
+                                        }
+                                        break;
+                                    case Cell.Contents.KEY:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = keyColor;
+                                        }
+                                        break;
+                                    case Cell.Contents.KITTEN:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = kittenColor;
+                                        }
+                                        break;
+                                }
+
                             }
                             break;
+                        #endregion
 
+
+                        //  Doors - have a modifier
+                        #region [ Door Switching ]
                         case Cell.Archetypes.DOOR:
-                            //  Switch on Modifier
-                            switch (mod)
                             {
-                                case Cell.Modifiers.LOCKED:
-                                    //  Locked doors are dark brown
-                                    grdconMap[y, x].BackColor = doorLockedColor;
-                                    break;
-                                case Cell.Modifiers.UNLOCKED:
-                                    //  Unlocked doors are light brown
-                                    grdconMap[y, x].BackColor = doorUnlockedColor;
-                                    break;
+                                //Get Modifier
+                                Cell.Modifiers mod = cellGrid.CheckDoorModifier(x, y);
+
+                                //Switch on Modifier
+                                switch (mod)
+                                {
+                                    case Cell.Modifiers.LOCKED:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = doorLockedColor;
+                                        }
+                                        break;
+                                    case Cell.Modifiers.UNLOCKED:
+                                        {
+                                            grdconMap[y + 1, x + 1].BackColor = doorUnlockedColor;
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             break;
 
+                        #endregion
+
+
+                        //  Stairs - have no other values
                         case Cell.Archetypes.STAIR:
-                            //  Stairs are cyan
-                            grdconMap[y, x].BackColor = stairColor;
+                            {
+                                grdconMap[y + 1, x + 1].BackColor = stairColor;
+                            }
                             break;
 
                     }
                 }
             }
+
 
             //  Set the player cell color
             grdconMap[player.YCoord + 1, player.XCoord + 1].BackColor = playerColor;
@@ -515,25 +600,143 @@ namespace Theif_Escape
             {
                 for (int y = 1; y < maxRange; y++)
                 {
-                    grdconMap[x, y].BackColor = Color.Black;
+                    grdconMap[y, x].BackColor = fogColor;
                 }
             }
         }
 
 
-        //Return the fog to the area no longer revealed.
+        //Return the fog to the area no longer revealed. - CALL AFTER THE PLAYER HAS BEEN MOVED
         internal void UpdateFog(Grid.Direction direction)
         {
+            //Get the players new position
+            int x = player.XCoord;
+            int y = player.YCoord;
+
             switch (direction)
             {
+                #region [ North ]
                 case Grid.Direction.NORTH:
+                    {
+                        //Gets the lower and upper X bounds for the fog, validating for grid index.
+                        //  lower X
+                        int lowerX = player.XCoord - 2;
+                        if (lowerX < 0)
+                            lowerX = 0;
+                        //  upper X
+                        int upperX = player.XCoord + 2;
+                        if (upperX > cellGrid.MapSize - 1)
+                            upperX = cellGrid.MapSize - 1;
+
+                        //Gets the Y coord for the line, breaking if coord is out of index
+                        int YLine = player.YCoord + 3;
+
+                        if (YLine < 0 | YLine > (cellGrid.MapSize - 1))
+                        {
+                            break;
+                        }
+
+                        //For-loops through each cell, turning it black.
+                        for (int i = lowerX; i <= upperX; i++)
+                        {
+                            grdconMap[YLine + 1, i + 1].BackColor = fogColor;
+                        }
+                    }
                     break;
+                #endregion
+
+
+                #region [ South ]
                 case Grid.Direction.SOUTH:
+                    {
+                        //Gets the lower and upper X bounds for the fog, validating for grid index.
+                        //  lower X
+                        int lowerX = player.XCoord - 2;
+                        if (lowerX < 0)
+                            lowerX = 0;
+                        //  upper X
+                        int upperX = player.XCoord + 2;
+                        if (upperX > cellGrid.MapSize - 1)
+                            upperX = cellGrid.MapSize - 1;
+
+                        //Gets the Y coord for the line, breaking if coord is out of index
+                        int YLine = player.YCoord - 3;
+
+                        if (YLine < 0 | YLine > (cellGrid.MapSize - 1))
+                        {
+                            break;
+                        }
+
+                        //For-loops through each cell, turning it black.
+                        for (int i = lowerX; i <= upperX; i++)
+                        {
+                            grdconMap[YLine + 1, i + 1].BackColor = fogColor;
+                        }
+                    }
                     break;
+                #endregion
+
+
+                #region [ East ]
                 case Grid.Direction.EAST:
+                    {
+                        //Gets the lower and upper Y bounds for the fog, validating for grid index.
+                        //  lower Y
+                        int lowerY = player.YCoord - 2;
+                        if (lowerY < 0)
+                            lowerY = 0;
+                        //  upper Y
+                        int upperY = player.YCoord + 2;
+                        if (upperY > cellGrid.MapSize - 1)
+                            upperY = cellGrid.MapSize - 1;
+
+                        //Gets the X coord for the line, breaking if coord is out of index
+                        int XLine = player.XCoord - 3;
+
+                        if (XLine < 0 | XLine > (cellGrid.MapSize - 1))
+                        {
+                            break;
+                        }
+
+                        //For-loops through each cell, turning it black.
+                        for (int i = lowerY; i <= upperY; i++)
+                        {
+                            grdconMap[i + 1, XLine + 1].BackColor = fogColor;
+                        }
+                    }
                     break;
+                #endregion
+
+
+                #region [ West ]
                 case Grid.Direction.WEST:
+                    {
+                        //Gets the lower and upper Y bounds for the fog, validating for grid index.
+                        //  lower Y
+                        int lowerY = player.YCoord - 2;
+                        if (lowerY < 0)
+                            lowerY = 0;
+                        //  upper Y
+                        int upperY = player.YCoord + 2;
+                        if (upperY > cellGrid.MapSize - 1)
+                            upperY = cellGrid.MapSize - 1;
+
+                        //Gets the X coord for the line, breaking if coord is out of index
+                        int XLine = player.XCoord + 3;
+
+                        if (XLine < 0 | XLine > (cellGrid.MapSize - 1))
+                        {
+                            break;
+                        }
+
+                        //For-loops through each cell, turning it black.
+                        for (int i = lowerY; i <= upperY; i++)
+                        {
+                            grdconMap[i + 1, XLine + 1].BackColor = fogColor;
+                        }
+                    }
                     break;
+                #endregion
             }
         }
 

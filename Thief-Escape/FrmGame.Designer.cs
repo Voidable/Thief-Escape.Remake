@@ -107,7 +107,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.BackColor = System.Drawing.Color.Black;
+            this.textBox2.BackColor = System.Drawing.Color.DimGray;
             this.textBox2.Location = new System.Drawing.Point(6, 45);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
