@@ -80,6 +80,7 @@ namespace Theif_Escape
         public Modifiers Modifier
         {
             get { return _modifier; }
+
             set
             {
                 //If you're changing the modifier...
@@ -114,6 +115,7 @@ namespace Theif_Escape
         public Contents Content
         {
             get { return _contents; }
+
             set
             {
                 //If your changing the contents...
