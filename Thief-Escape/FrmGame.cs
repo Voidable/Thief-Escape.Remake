@@ -35,7 +35,6 @@ namespace Theif_Escape
         //Default constructor
         public FrmGame()
         {
-            // TODO: Complete member initialization
             InitializeComponent();
 
             //Defaut constructor creates name of "User"
@@ -82,6 +81,7 @@ namespace Theif_Escape
             cellGrid = new Grid(Grid.MapFiles.Test);
 
             //  Create the Map
+            CreateMap();
 
             //  Place the player
             player.SetLocation(cellGrid.StartingCell);
@@ -123,7 +123,7 @@ namespace Theif_Escape
             //Planned feature: Save a gamestate to file
         }
 
-        
+
         //  Menu Button
         private void btnMainMenu_Click(object sender, EventArgs e)
         {
@@ -219,7 +219,7 @@ namespace Theif_Escape
 
         #endregion
 
-#endregion
+        #endregion
 
 
         #region [ Actions ]
@@ -276,7 +276,7 @@ namespace Theif_Escape
                 for (int iy = 0; iy < 3; iy++)
                 {
                     //If the cell has a key, return true.
-                    if (cellGrid.CheckForItem((x + ix),(y+iy)) == Cell.Contents.KEY)
+                    if (cellGrid.CheckForItem((x + ix), (y + iy)) == Cell.Contents.KEY)
                     {
                         //Bool true
                         result[0] = 1;
@@ -300,6 +300,110 @@ namespace Theif_Escape
 
 
         #endregion
+
+        #endregion
+
+
+        #region [ Image Map ]
+
+        public void CreateMap()
+        {
+            //  Define the colors for the cells
+            Color wallColor = Color.DimGray;
+            Color floorColor = Color.White;
+            Color doorUnlockedColor = Color.SaddleBrown;
+            Color doorLockedColor = Color.Chocolate;
+            Color stairColor = Color.Cyan;
+            Color kittenColor = Color.Purple;
+            Color keyColor = Color.SpringGreen;
+
+
+            //Get the max range of the cellGrid
+            int maxRange = cellGrid.MapSize + 1;
+
+
+            //For loop to process each cell in the cellGrid and set the color appropriately.
+            for (int x = 1; x < maxRange; x++)
+            {
+                for (int y = 1; y < maxRange; y++)
+                {
+                    //  Get the Archetype
+                    Cell.Archetypes type = cellGrid.CheckType(x - 1, y - 1);
+
+                    //  Get the Modifier
+                    Cell.Modifiers mod = cellGrid.CheckDoorModifier(x - 1, y - 1);
+
+                    //  Get the Contents
+                    Cell.Contents cont = cellGrid.CheckForItem(x - 1, y - 1);
+
+                    //  Switch on the Archetype
+                    switch (type)
+                    {
+                        case Cell.Archetypes.WALL:
+                            //  Switch on Contents
+                            switch (cont)
+                            {
+                                case Cell.Contents.NULL:
+                                    //  Empty Walls are black
+                                    grdconMap[y, x].BackColor = wallColor;
+                                    break;
+                                case Cell.Contents.KEY:
+                                    //  Keys are springGreen
+                                    grdconMap[y, x].BackColor = keyColor;
+                                    break;
+                                case Cell.Contents.KITTEN:
+                                    // Kittens are purple
+                                    grdconMap[y, x].BackColor = kittenColor;
+                                    break;
+                            }
+                            break;
+
+                        case Cell.Archetypes.FLOOR:
+                            //  Switch on Contents
+                            switch (cont)
+                            {
+                                case Cell.Contents.NULL:
+                                    //  Empty Walls are black
+                                    grdconMap[y, x].BackColor = floorColor;
+                                    break;
+                                case Cell.Contents.KEY:
+                                    //  Keys are springGreen
+                                    grdconMap[y, x].BackColor = keyColor;
+                                    break;
+                                case Cell.Contents.KITTEN:
+                                    // Kittens are purple
+                                    grdconMap[y, x].BackColor = kittenColor;
+                                    break;
+                            }
+                            break;
+
+                        case Cell.Archetypes.DOOR:
+                            //  Switch on Modifier
+                            switch (mod)
+                            {
+                                case Cell.Modifiers.LOCKED:
+                                    //  Locked doors are dark brown
+                                    grdconMap[y, x].BackColor = doorLockedColor;
+                                    break;
+                                case Cell.Modifiers.UNLOCKED:
+                                    //  Unlocked doors are light brown
+                                    grdconMap[y, x].BackColor = doorUnlockedColor;
+                                    break;
+                            }
+                            break;
+
+                        case Cell.Archetypes.STAIR:
+                            //  Stairs are cyan
+                            grdconMap[y, x].BackColor = stairColor;
+                            break;
+
+                    }
+                }
+            }
+
+        }
+
+
 
         #endregion
 
