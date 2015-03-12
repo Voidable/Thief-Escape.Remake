@@ -18,6 +18,7 @@ namespace Theif_Escape
 
         Player player;
         List<Item> Inventory;
+        Grid cellGrid;
         string name;
 
         //Exit bool is used to prevent unwanted shutdowns 
@@ -72,23 +73,34 @@ namespace Theif_Escape
         private void FrmGame_Load(object sender, EventArgs e)
         {
             //  Create the Player
+            player = new Player(name);
 
             //  Create the Inventory
+            Inventory = new List<Item>();
 
             //  Create the Grid
+            cellGrid = new Grid(Grid.MapFiles.Test);
 
             //  Create the Map
 
             //  Place the player
-
+            player.SetLocation(cellGrid.StartingCell);
             //  Clear the fog
 
             //  Check Valid Movements
 
             //  Initial Prompt
+            InitalPrompt();
 
         }
 
+        //starting dialog
+        public void InitalPrompt()
+        {
+            lstDialog.Items.Add(string.Format("Hello {0}, welcome to the game", name));
+            lstDialog.Items.Add("Help Robbie get out of the house with all his treasures!");
+            lstDialog.Items.Add("");
+        }
 
         #endregion
 
@@ -200,7 +212,7 @@ namespace Theif_Escape
 
         public void CheckValidMovements(int x, int y)
         {
-
+            //to-do
         }
 
 
@@ -218,7 +230,22 @@ namespace Theif_Escape
         // Pick-up Key Button
         private void btnPickupKey_Click(object sender, EventArgs e)
         {
-
+            int[] keyDetails = CheckForNearbyKey();
+            if (keyDetails[0] != 0)
+            {
+                //  Remove key from grid.
+                cellGrid.RemoveItem(keyDetails[1], keyDetails[2]);
+                //  Add a key to the inventory
+                Item key = new Item(Item.ItemType.KEY);
+                Inventory.Add(key);
+                UpdateInventory();
+            }
+            else
+            {
+                lstDialog.Items.Add("There is no key nearby!");
+                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                lstDialog.SelectedIndex = -1;
+            }
         }
 
 
@@ -226,14 +253,49 @@ namespace Theif_Escape
         // Use Key Button
         private void btnUseKey_Click(object sender, EventArgs e)
         {
-
+            //to-do
         }
 
         #endregion
 
         #region [ Action Methods ]
-        
 
+        private int[] CheckForNearbyKey()
+        {
+            //The array defined as (bool,x-coord,y-coord). Bool is 0-false 1-true, with default of false.
+            int[] result = { 0, 0, 0 };
+
+            //Creates starting point for search, 1 cell up and 1 cell left.
+            int x = player.XCoord - 1;
+            int y = player.YCoord - 1;
+
+            //Goes through each "column" of the search area
+            for (int ix = 0; ix < 3; ix++)
+            {
+                //Goes through each "row" of the column
+                for (int iy = 0; iy < 3; iy++)
+                {
+                    //If the cell has a key, return true.
+                    if (cellGrid.CheckForItem((x + ix),(y+iy)) == Cell.Contents.KEY)
+                    {
+                        //Bool true
+                        result[0] = 1;
+                        //Key's x-coord
+                        result[1] = (x + ix);
+                        //Key's y-coord
+                        result[2] = (y + iy);
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        private void UpdateInventory()
+        {
+            //to-do
+        }
 
 
 

@@ -73,5 +73,46 @@ namespace Theif_Escape
 
 
         #endregion
+
+        #region [ Constructors ]
+
+
+		//Constructor with player name propertie
+		public Player(string sentname)
+		{
+			_name = sentname;
+		}
+
+		//Constructor with both a name property and an x,y for the current cell
+		public Player(string sentName, int x, int y)
+		{
+			_name = sentName;
+			XCoord = x;
+			YCoord = y;
+		}
+
+
+        #endregion
+
+        #region [ Methods ]
+
+
+        //  Sets the players location - separate coords
+        public void SetLocation(int x, int y)
+        {
+            XCoord = x;
+            YCoord = y;
+        }
+
+
+        //  Sets the players location - coord array
+        public void SetLocation(int[] coords)
+        {
+            XCoord = coords[0];
+            YCoord = coords[1];
+        }
+
+
+        #endregion
     }
 }
