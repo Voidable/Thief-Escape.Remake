@@ -415,7 +415,7 @@ namespace Theif_Escape
         {
             if (_map[x, y].Modifier == Cell.Modifiers.LOCKED)
                 _map[x, y].Modifier = Cell.Modifiers.UNLOCKED;
-            if (_map[x, y].Modifier == Cell.Modifiers.UNLOCKED)
+            else if (_map[x, y].Modifier == Cell.Modifiers.UNLOCKED)
                 _map[x, y].Modifier = Cell.Modifiers.LOCKED;
             Cell.Modifiers result = _map[x, y].Modifier;
             return result;

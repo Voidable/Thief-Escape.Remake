@@ -113,6 +113,7 @@
             this.MinimumSize = new System.Drawing.Size(385, 325);
             this.Name = "FrmMain";
             this.Text = "Thief Escape - Main Menu";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 

@@ -543,7 +543,7 @@
             this.grdconMap.DefaultRowHeight = 26;
             this.grdconMap.DrawOrder = Syncfusion.Windows.Forms.Grid.GridDrawOrder.Columns;
             this.grdconMap.EnterKeyBehavior = Syncfusion.Windows.Forms.Grid.GridDirectionType.None;
-            this.grdconMap.Font = new System.Drawing.Font("Arial Narrow", 14.25F);
+            this.grdconMap.Font = new System.Drawing.Font("Arial", 15F);
             this.grdconMap.HorizontalThumbTrack = true;
             this.grdconMap.HScrollPixel = true;
             this.grdconMap.IsSpreadsheetFillSeries = false;
@@ -561,9 +561,9 @@
             this.grdconMap.Properties.RowHeaders = false;
             gridRangeStyle1.Range = Syncfusion.Windows.Forms.Grid.GridRangeInfo.Table();
             gridRangeStyle1.StyleInfo.Font.Bold = false;
-            gridRangeStyle1.StyleInfo.Font.Facename = "Arial Narrow";
+            gridRangeStyle1.StyleInfo.Font.Facename = "Arial";
             gridRangeStyle1.StyleInfo.Font.Italic = false;
-            gridRangeStyle1.StyleInfo.Font.Size = 14.25F;
+            gridRangeStyle1.StyleInfo.Font.Size = 15F;
             gridRangeStyle1.StyleInfo.Font.Strikeout = false;
             gridRangeStyle1.StyleInfo.Font.Underline = false;
             gridRangeStyle1.StyleInfo.Font.Unit = System.Drawing.GraphicsUnit.Point;

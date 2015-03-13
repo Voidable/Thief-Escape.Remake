@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Syncfusion.Windows.Forms;
-using Theif_Escape;
+using Syncfusion.Windows.Forms.Grid;
+using Syncfusion.Drawing;
 
 namespace Theif_Escape
 {
@@ -19,6 +19,7 @@ namespace Theif_Escape
 
         Player player;
         List<Item> Inventory;
+        Item key, kitten;
         Grid cellGrid;
         string name;
 
@@ -37,10 +38,6 @@ namespace Theif_Escape
         Color stairColor = Color.Cyan;
         Color kittenColor = Color.Purple;
         Color keyColor = Color.SpringGreen;
-
-
-        //  Define player color
-        Color playerColor = Color.Orange;
 
         // Define fog color
         Color fogColor = Color.Black;
@@ -88,15 +85,21 @@ namespace Theif_Escape
 
         }
 
-
         //  Form Loaded
         private void FrmGame_Load(object sender, EventArgs e)
         {
             //  Create the Player
             player = new Player(name);
 
+            //  Create Items
+            key = new Item(Item.ItemType.KEY);
+            kitten = new Item(Item.ItemType.KITTEN);   
+
             //  Create the Inventory
             Inventory = new List<Item>();
+         
+            //  Update Inventory Dialog
+            UpdateInventory();
 
             //  Create the Grid
             cellGrid = new Grid(Grid.MapFiles.Test);
@@ -125,6 +128,7 @@ namespace Theif_Escape
             lstDialog.Items.Add("Help Robbie get out of the house with all his treasures!");
             lstDialog.Items.Add("");
         }
+
 
         #endregion
 
@@ -332,7 +336,6 @@ namespace Theif_Escape
                 ViewArea();
 
                 //  Add a key to the inventory
-                Item key = new Item(Item.ItemType.KEY);
                 Inventory.Add(key);
                 UpdateInventory();
 
@@ -348,6 +351,9 @@ namespace Theif_Escape
                 lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
                 lstDialog.SelectedIndex = -1;
             }
+
+            //  Update
+            UpdateInventory();
         }
 
 
@@ -355,30 +361,76 @@ namespace Theif_Escape
         // Use Key Button
         private void btnUseKey_Click(object sender, EventArgs e)
         {
+            bool foundDoor = false;
+
             //First checks if the player has a key in its inventory
-
-
-            //Creates starting point for search, 1 cell up and 1 cell left, centered on the player.
-            int x = player.XCoord - 1;
-            int y = player.YCoord - 1;
-
-            //Goes through each "column" of the search area
-            for (int ix = 0; ix < 3; ix++)
+            if (Inventory.Contains<Item>(key))
             {
-                //Goes through each "row" of the column
-                for (int iy = 0; iy < 3; iy++)
+                //Creates starting point for search, 1 cell up and 1 cell left, centered on the player.
+                int x = player.XCoord - 1;
+                int y = player.YCoord - 1;
+
+
+                //Goes through each "column" of the search area
+                for (int ix = 0; ix < 3; ix++)
                 {
-                    //If the cell is a door, check if its locked.
-                    if (cellGrid.CheckType((x + ix), (y + iy)) == Cell.Archetypes.DOOR)
+                    //Goes through each "row" of the column
+                    for (int iy = 0; iy < 3; iy++)
                     {
-                        //  Search found a locked door.
-                        if (cellGrid.CheckDoorModifier((x + ix), (y + iy)) == Cell.Modifiers.LOCKED)
+                        //If the cell is a door, check if its locked.
+                        if (cellGrid.CheckType((x + ix), (y + iy)) == Cell.Archetypes.DOOR)
                         {
+                            foundDoor = true;
+
+                            //  Search found a locked door.
+                            if (cellGrid.CheckDoorModifier((x + ix), (y + iy)) == Cell.Modifiers.LOCKED)
+                            {
+                                Inventory.Remove(key);
+                                cellGrid.ToggleDoorModifier((x + ix), (y + iy));
+
+                                //Door is now unlocked
+                                lstDialog.Items.Add("This door is now unlocked.");
+                                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                                lstDialog.SelectedIndex = -1;
+                            }
+                                
+                            else
+                            {
+                                //Door is already unlocked
+                                lstDialog.Items.Add("This door is already unlocked.");
+                                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                                lstDialog.SelectedIndex = -1;
+                            }
+
 
                         }
                     }
                 }
             }
+            else
+            {
+                //  Player does not have key.
+                lstDialog.Items.Add("I don't have a key to use.");
+                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                lstDialog.SelectedIndex = -1;
+            }
+
+            //  Tell the user there is no door if the search didn't find one.
+            if (!foundDoor)
+            {
+                lstDialog.Items.Add("I don't see a door near me.");
+                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                lstDialog.SelectedIndex = -1;
+            }
+
+            //Refresh the map
+            ViewArea();
+
+            //Revalidate movements
+            CheckValidMovements(player.XCoord, player.YCoord);
+
+            //Update Inventory
+            UpdateInventory();
         }
 
         #endregion
@@ -419,10 +471,26 @@ namespace Theif_Escape
 
         private void UpdateInventory()
         {
-            //to-do
+            //  Clear the current inventory dialog
+            lstInventory.Items.Clear();
+
+            // If the inventory is not empty
+            if (Inventory.Count != 0)
+            {
+                //  Return the string of each item in the inventory 
+                foreach (Item inv in Inventory)
+                {
+                    lstInventory.Items.Add(inv.ToString());
+                    lstInventory.Items.Add(" ");
+
+                }
+            }
+            else
+            {
+                //Dialog message for empty inventory.
+                lstInventory.Items.Add("I've got some mighty fine lint in my pocket.");
+            }
         }
-
-
 
         #endregion
 
@@ -585,8 +653,7 @@ namespace Theif_Escape
             }
 
 
-            //  Set the player cell color
-            grdconMap[player.YCoord + 1, player.XCoord + 1].BackColor = playerColor;
+            //  Set the player cell text
             grdconMap[player.YCoord + 1, player.XCoord + 1].Text = "☺";
 
         }
@@ -747,7 +814,6 @@ namespace Theif_Escape
 
 
         #endregion
-
 
     }
 }

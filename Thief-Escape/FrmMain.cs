@@ -12,6 +12,7 @@ namespace Theif_Escape
 {
     public partial class FrmMain : Form
     {
+
         public FrmMain()
         {
             InitializeComponent();
@@ -30,18 +31,24 @@ namespace Theif_Escape
             this.Hide();
         }
 
-        //Load Game Button
+        //  Load Game Button
         private void btnLoadGame_Click(object sender, EventArgs e)
         {
             //to-do
         }
 
-        //Exit Game Button
+        //  Exit Game Button
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
         #endregion
+
+        //  When this form is closed ( not hidden ) ensure that everything is closed.
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+                Application.Exit();
+        }
     }
 }
