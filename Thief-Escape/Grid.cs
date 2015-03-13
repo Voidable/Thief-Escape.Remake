@@ -24,7 +24,9 @@ namespace Theif_Escape
         //Map list Enum for grid creation
         public enum MapFiles
         {
-            Test
+            Test1,
+            Test2
+
         }
 
 
@@ -76,8 +78,12 @@ namespace Theif_Escape
             //Switch Statement to determine MapSize
             switch (file)
             {
-                case MapFiles.Test:
+                case MapFiles.Test1:
                     _mapSize = 16;
+                    break;
+
+                case MapFiles.Test2:
+                    _mapSize = 8;
                     break;
 
                 default:
@@ -97,8 +103,8 @@ namespace Theif_Escape
                 }
             }
 
-            //Now what I'd like to do is load from a file here, but because I haven't found a working solution for that, its being created in code here.
-            if (file == MapFiles.Test)
+            //Now what I'd like to do is load from a file here, but because I haven't found a working solution for that, maps are being created in code here.
+            if (file == MapFiles.Test1)
             {
                 #region [ Test Map Creation ]
                 //Starting Cell
@@ -219,126 +225,7 @@ namespace Theif_Escape
                 _map[14, 6].Archetype = Cell.Archetypes.WALL;
                 _map[14, 12].Archetype = Cell.Archetypes.WALL;
                 #endregion
-                #region Floors
-                _map[1, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[1, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[1, 6].Archetype = Cell.Archetypes.FLOOR;
-                _map[1, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[1, 9].Archetype = Cell.Archetypes.FLOOR;
-                _map[1, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[1, 11].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[2, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 6].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 9].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 11].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[2, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[3, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[3, 6].Archetype = Cell.Archetypes.FLOOR;
-                _map[3, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[3, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[4, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[4, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[4, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[4, 6].Archetype = Cell.Archetypes.FLOOR;
-                _map[4, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[4, 9].Archetype = Cell.Archetypes.FLOOR;
-                _map[4, 10].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[5, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 9].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 11].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 12].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[5, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[6, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 5].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 6].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 9].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[6, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[7, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[7, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[8, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[8, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[8, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[8, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[8, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[9, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 3].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 5].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[9, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[10, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[10, 11].Archetype = Cell.Archetypes.FLOOR;
-                _map[10, 12].Archetype = Cell.Archetypes.FLOOR;
-                _map[10, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[10, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[11, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 3].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 5].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 6].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[11, 10].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[12, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[12, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[12, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[12, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[12, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[13, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 3].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 5].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 11].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 13].Archetype = Cell.Archetypes.FLOOR;
-                _map[13, 14].Archetype = Cell.Archetypes.FLOOR;
-
-                _map[14, 1].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 2].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 3].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 4].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 5].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 7].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 8].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 10].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 11].Archetype = Cell.Archetypes.FLOOR;
-                _map[14, 14].Archetype = Cell.Archetypes.FLOOR;
-                #endregion
+                //Cells are assumed to be floors until told otherwise
                 #region Doors
                 //Unlocked doors
                 _map[1, 3].Archetype = Cell.Archetypes.DOOR;
@@ -361,10 +248,59 @@ namespace Theif_Escape
                 #endregion
                 #region Stairs
                 _map[1, 13].Archetype = Cell.Archetypes.STAIR;
-                _map[14,13].Archetype = Cell.Archetypes.STAIR;
+                _map[1, 13].Destination = MapFiles.Test2;
+                int[] coords1 = { 2, 2 };
+                _map[1, 13].DestinationCoords = coords1;
+
+                _map[14, 13].Archetype = Cell.Archetypes.STAIR;
+                _map[14, 13].Destination = MapFiles.Test2;
+                int[] coords2 = { 5, 5 };
+                _map[14, 13].DestinationCoords = coords2;
                 #endregion
                 #region Items
                 _map[9, 7].Content = Cell.Contents.KEY;
+                #endregion
+                #endregion
+            }
+            else if (file == MapFiles.Test2)
+            {
+                #region [ Test Map Creation ]
+                //No starting cell this time, You cant start in this room.
+                #region Walls
+                //Borders of the grid
+                for (int i = 0; i < _mapSize - 1; i++)
+                {
+                    _map[0, i].Archetype = Cell.Archetypes.WALL;
+                    _map[7, i].Archetype = Cell.Archetypes.WALL;
+                    _map[i, 0].Archetype = Cell.Archetypes.WALL;
+                    _map[i, 7].Archetype = Cell.Archetypes.WALL;
+                }
+                //This one wall wouldn't be set for some reason.
+                _map[7, 7].Archetype = Cell.Archetypes.WALL;
+                //Inner walls of the grid
+                for (int i = 0; i < 5; i++)
+                {
+                    _map[i, 4].Archetype = Cell.Archetypes.WALL;
+                }
+                for (int i = 3; i < 8; i++)
+                {
+                    _map[i, 3].Archetype = Cell.Archetypes.WALL;
+                }
+                #endregion
+                #region Stairs
+                _map[2, 2].Archetype = Cell.Archetypes.STAIR;
+                _map[2, 2].Destination = MapFiles.Test1;
+                int[] coords1 = { 1, 13 };
+                _map[2, 2].DestinationCoords = coords1;
+
+                _map[5, 5].Archetype = Cell.Archetypes.STAIR;
+                _map[5, 5].Destination = MapFiles.Test1;
+                int[] coords2 = { 14, 13 };
+                _map[5, 5].DestinationCoords = coords2;
+                #endregion
+                #region Items
+                _map[5,2].Content = Cell.Contents.KEY;
+                _map[2, 5].Content = Cell.Contents.KITTEN;
                 #endregion
                 #endregion
             }
@@ -375,7 +311,7 @@ namespace Theif_Escape
 
 
         #region [ Methods ]
-        
+
 
         //  Returns the Archetype of a cell
         public Cell.Archetypes CheckType(int x, int y)
@@ -418,6 +354,22 @@ namespace Theif_Escape
             else if (_map[x, y].Modifier == Cell.Modifiers.UNLOCKED)
                 _map[x, y].Modifier = Cell.Modifiers.LOCKED;
             Cell.Modifiers result = _map[x, y].Modifier;
+            return result;
+        }
+
+        //Returns the cell's destination map
+        public Grid.MapFiles Destination( int x, int y)
+        {
+            Grid.MapFiles result;
+            result = _map[x, y].Destination;
+            return result;
+        }
+
+        //Returns the cell's destination coordinates
+        public int[] DestinationCoords(int x, int y)
+        {
+            int[] result;
+            result = _map[x, y].DestinationCoords;
             return result;
         }
 

@@ -44,6 +44,8 @@ namespace Theif_Escape
         private Archetypes _archtype;
         private Modifiers _modifier;
         private Contents _contents;
+        private Grid.MapFiles _destination;
+        private int[] _destinationCoords;
 
         #endregion
 
@@ -150,6 +152,37 @@ namespace Theif_Escape
             }
         }
 
+
+        //Gets or sets the destination map of a Stair cell.
+        public Grid.MapFiles Destination 
+        {
+            get { return _destination; }
+            set
+            {
+                if (Archetype == Archetypes.STAIR)
+                {
+                    _destination = value;
+                }
+                else
+                    throw new ArgumentException("Only stair cells can have a destination.");
+            }
+        }
+
+
+        //Gets of sets the destination coordinates of a Stair Cell.
+        public int[] DestinationCoords 
+        {
+            get { return _destinationCoords; }
+            set
+            {
+                if (Archetype == Archetypes.STAIR)
+                {
+                    _destinationCoords = value;
+                }
+                else
+                    throw new ArgumentException("Only stair cells can  have destination coordinates.");
+            }
+        }
 
         #endregion
 

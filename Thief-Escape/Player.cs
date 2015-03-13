@@ -18,6 +18,9 @@ namespace Theif_Escape
         int _x;
         int _y;
 
+        //Players current map
+        Grid.MapFiles _currentMap;
+
 
         #endregion
 
@@ -68,6 +71,17 @@ namespace Theif_Escape
             {
                 int[] coords = {_x,_y};
                 return coords;
+            }
+        }
+
+
+        //Gets or sets the players current map
+        public Grid.MapFiles CurrentMap 
+        {
+            get { return _currentMap; }
+            set
+            {
+                _currentMap = value;
             }
         }
 

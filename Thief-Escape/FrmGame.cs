@@ -102,10 +102,11 @@ namespace Theif_Escape
             UpdateInventory();
 
             //  Create the Grid
-            cellGrid = new Grid(Grid.MapFiles.Test);
+            cellGrid = new Grid(Grid.MapFiles.Test1);
 
             //  Place the player
             player.SetLocation(cellGrid.StartingCell);
+            player.CurrentMap = Grid.MapFiles.Test1;
 
             //  Make everything black
             InitialFog();
@@ -357,7 +358,6 @@ namespace Theif_Escape
         }
 
 
-
         // Use Key Button
         private void btnUseKey_Click(object sender, EventArgs e)
         {
@@ -406,19 +406,18 @@ namespace Theif_Escape
                         }
                     }
                 }
+                //  Tell the user there is no door if the search didn't find one.
+                if (!foundDoor)
+                {
+                    lstDialog.Items.Add("I don't see a door near me.");
+                    lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                    lstDialog.SelectedIndex = -1;
+                }
             }
-            else
+            else if (!(Inventory.Contains(key)))
             {
                 //  Player does not have key.
                 lstDialog.Items.Add("I don't have a key to use.");
-                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
-                lstDialog.SelectedIndex = -1;
-            }
-
-            //  Tell the user there is no door if the search didn't find one.
-            if (!foundDoor)
-            {
-                lstDialog.Items.Add("I don't see a door near me.");
                 lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
                 lstDialog.SelectedIndex = -1;
             }
@@ -433,6 +432,48 @@ namespace Theif_Escape
             UpdateInventory();
         }
 
+
+        //  Use Stairs Button
+        private void btnUseStairs_Click(object sender, EventArgs e)
+        {
+            //Check to see if the player is currently standing on stairs.
+            if (cellGrid.CheckType(player.XCoord,player.YCoord) == Cell.Archetypes.STAIR)
+            {
+                // Get the stairs destination
+                Grid.MapFiles destination = cellGrid.Destination(player.XCoord, player.YCoord);
+                int[] coords = cellGrid.DestinationCoords(player.XCoord, player.YCoord);
+
+                //Fog everything
+                InitialFog();
+
+                //  Recreate the grid
+                cellGrid = new Grid(destination);
+
+                //Place the player
+                player.XCoord = coords[0];
+                player.YCoord = coords[1];
+
+                // Refresh the view
+                ViewArea();
+
+                //Check new valid movements
+                CheckValidMovements(player.XCoord,player.YCoord);
+
+                //Tell the user they have used stairs.
+                //  Tell user there not on the stairs
+                lstDialog.Items.Add("Those where some tall stairs.");
+                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                lstDialog.SelectedIndex = -1;
+            }
+
+            else
+            {
+                //  Tell user there not on the stairs
+                lstDialog.Items.Add("I have to be on the stairs to use them.");
+                lstDialog.SelectedIndex = lstDialog.Items.Count - 1;
+                lstDialog.SelectedIndex = -1;
+            }
+        }
         #endregion
 
         #region [ Action Methods ]
@@ -814,6 +855,8 @@ namespace Theif_Escape
 
 
         #endregion
+
+
 
     }
 }
